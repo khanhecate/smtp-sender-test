@@ -27,9 +27,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Subject = $subject;
     $mail->Body = $message;
 
+    // Enable verbose debug output
+    $mail->SMTPDebug = 2;
+    $mail->Debugoutput = function($str, $level) {
+        echo $str . "<br>";
+    };
+
+    // Attempt to send the email
     if ($mail->send()) {
-        echo "Email sent successfully to $to_email";
+        echo "Email sent successfully to $to_email<br>";
     } else {
-        echo "Failed to send email. Error: " . $mail->ErrorInfo;
+        echo "Failed to send email. Error: " . $mail->ErrorInfo . "<br>";
     }
 }
