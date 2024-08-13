@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMTP Server Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            display: flex;
+        }
+        .form-section, .log-section {
+            flex: 1;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #FF00FF; /* Adjusted pink color */
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"],
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        textarea {
+            resize: none;
+        }
+        input[type="submit"] {
+            background-color: #FF00FF; /* Adjusted pink color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .log-section {
+            background-color: #f0f8ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .log-section h3 {
+            margin-top: 0;
+            color: #FF00FF;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-section">
+        <h2>Input Server Details Below</h2>
+        <form id="emailForm">
+            <label for="smtp_host">SMTP SERVER</label>
+            <input type="text" id="smtp_host" name="smtp_host" placeholder="text input here" required>
+
+            <label for="smtp_port">PORT</label>
+            <input type="number" id="smtp_port" name="smtp_port" placeholder="text input here" required>
+
+            <label for="smtp_user">USERNAME</label>
+            <input type="text" id="smtp_user" name="smtp_user" placeholder="text input here" required>
+
+            <label for="smtp_pass">PASSWORD</label>
+            <input type="password" id="smtp_pass" name="smtp_pass" placeholder="text input here" required>
+
+            <label for="sender_email">SENDER MAIL</label>
+            <input type="email" id="sender_email" name="sender_email" placeholder="text input here" required>
+
+            <label for="to_email">RECEIVER MAIL</label>
+            <input type="email" id="to_email" name="to_email" placeholder="text input here" required>
+
+            <label for="subject">SUBJECT</label>
+            <input type="text" id="subject" name="subject" placeholder="text input here" required>
+
+            <label for="message">MESSAGE</label>
+            <textarea id="message" name="message" rows="4" placeholder="text input here" required></textarea>
+
+            <input type="submit" value="Send Email">
+        </form>
+    </div>
+    <div class="log-section">
+        <h3>LOG SENT</h3>
+        <div id="log_output">
+            <!-- Log output will appear here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('emailForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('send_email.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('log_output').innerHTML = data;
+        })
+        .catch(error => {
+            document.getElementById('log_output').innerText = 'Error: ' + error;
+        });
+    });
+
+</script>
+
+</body>
+</html>
